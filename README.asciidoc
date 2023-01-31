@@ -81,3 +81,20 @@ ocamlfind camlp5-buildscripts/LAUNCH -v -- <cmd>
 ```
 
 Note that the `--` is mandatory.
+
+== Maintenance
+
+There are two directories containing these scripts: `pa_ppx_src` and
+`src`.  The former directory contains scripts that are written using
+`pa_ppx_perl` and whatever other PPX rewriters one might desire.  The
+latter directory contains those same scripts, but after expansion via
+`not-ocamlfind preprocess` The "make all install" process only builds
+the scripts in `src`, so PPX rewriters are not necessary to build and
+install this project -- which is the point, so that this project can
+be used as build-scripts in `camlp5` and various PPX rewriter
+projects.
+
+There is a "bootstrap" target in the toplevel that will update the
+scripts in `src` if they are out-of-date w.r.t. the versions in
+`pa_ppx_src`, but it should be a no-op unless being used by the
+maintainer of this package.
