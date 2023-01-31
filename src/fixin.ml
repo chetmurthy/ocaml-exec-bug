@@ -1,83 +1,67 @@
-open Printf
-let usage = "fixin [-s] [files]"
+(** -syntax camlp5o *)
 
-let absdirs =
-  Sys.getenv "PATH"
-  |> String.split_on_char ':'
-  |> List.filter (fun p -> p.[0] == '/') 
-  |> List.rev
+let push l x = l := x :: !l
 
-exception NotProcessed of string
+open Rresult
+open Bos
 
-let find_executable ~verbose executable =
-  let f found dir =
-    let path = sprintf "%s/%s" dir executable in
-    if Sys.file_exists path then (
-      if verbose && found <> "" then
-        eprintf "Ignoring %s\n" path;
-      path)
-    else found in
-  ListLabels.fold_left ~init:"" absdirs ~f
+let read_fully ifile = OS.File.read ifile
 
-let parse_shebang line =
-  let open StringLabels in
-  if not (starts_with ~prefix:"#!" line) then
-    raise (NotProcessed "doesn't start with shebang");
-  let cmd = sub line ~pos:2 ~len:(length line - 2) |> trim in
-  match split_on_char ~sep:' ' cmd with
-  | [] -> failwith "unreachable branch"
-  | cmd :: args ->
-    cmd, concat ~sep:" " args
+let write_fully ~mode ofile txt = OS.File.write ~mode ofile txt
 
-let generate_shebang ~verbose line =
-  let cmd, args = parse_shebang line in
-  let executable_name = Filename.basename(cmd) in
-  let found = find_executable ~verbose executable_name in
-  if found == "" then
-    raise (NotProcessed (sprintf "unchanged. Can't find %s in PATH" executable_name));
-  sprintf "#!%s %s" found args |> String.trim
-  
-let writefile ~shebang ~filename ~in_channel =
-  Sys.rename filename (filename ^ ".bak");
-  let out_channel = if in_channel == stdin then
-      stdout
-    else
-      let dev = (Unix.stat filename).st_dev in
-      let mode = if dev = 0 then 0 else 0o755 in
-      Unix.chmod filename mode;
-      open_out filename
+let verbose = ref true
+let files = ref []
+
+let _ =
+  Arg.
+  (parse ["-s", Arg.Clear verbose, "silence verbosity"]
+    (fun s -> push files s) "fixin [-s] <files>")
+
+let ( let* ) x f = Rresult.(>>=) x f
+
+let search_path =
+  let dirs = String.split_on_char ':' (Sys.getenv "PATH") in
+  List.map Fpath.v dirs
+
+let fix_interpreter ~f (exedir, exename) =
+  let open Fpath in
+  let exename = v exename in
+  let candidates = List.map (fun dir -> append dir exename) search_path in
+  match List.find_opt OS.File.is_executable candidates with
+    None ->
+      Fmt.
+      (pf stderr "Can't find %a in PATH, %a unchanged\n%!" pp exename pp f);
+      to_string (append (v exedir) exename)
+  | Some v -> Fmt.(pf stderr "Changing %a to %a\n%!" pp f pp v); to_string v
+
+let fixin_contents ~f txt =
+  let txt =
+    Re.replace ~all:false
+      (Re.Perl.compile_pat ~opts:[`Dotall] "^#!([\\S]+/)?([\\S]+)")
+      ~f:(fun __g__ ->
+         "#!" ^
+         fix_interpreter ~f
+           ((match Re.Group.get_opt __g__ 1 with
+               None -> ""
+             | Some s -> s),
+            (match Re.Group.get_opt __g__ 2 with
+               None -> ""
+             | Some s -> s)))
+      txt
   in
-  fprintf out_channel "%s\n" shebang;
-  let rec loop () =
-    try
-      output_string out_channel (input_line in_channel);
-      loop ()
-    with End_of_file -> ()
-  in loop ()
-  
-let process_file ~verbose ~filename in_channel =
-  try
-    let shebang = generate_shebang ~verbose (input_line in_channel) in
-    if verbose then
-      eprintf "Changing shebang of %s to %s" filename shebang;
-    writefile ~shebang ~filename ~in_channel
-  with
-  | Sys_error msg -> eprintf "%s\n" msg
-  | End_of_file -> eprintf "%s is empty.\n" filename
-  | NotProcessed msg -> eprintf "%s %s\n" filename msg
-  | exn -> raise exn
+  Ok txt
 
-let () =
-  let rec loop ~verbose = function
-    | "-s" :: files -> loop ~verbose:false files
-    | [] ->
-      if Unix.isatty Unix.stdin then
-        let filename = "<STDIN>" in
-        process_file ~verbose ~filename stdin
-      else
-        failwith ("Usage: " ^ usage)
-    | files ->
-      ListLabels.iter files
-        ~f:(fun filename ->
-            process_file ~verbose ~filename (open_in filename))
-  in loop ~verbose:true (Array.to_list Sys.argv |> List.tl)
+let fixin1 f =
+  let open Fpath in
+  let f = v f in
+  let newf = add_ext "NEW" f in
+  let bakf = add_ext "bak" f in
+  let* st = OS.Path.stat f in
+  let mode = st.Unix.st_perm in
+  let* contents = read_fully f in
+  let* contents = fixin_contents ~f contents in
+  let* () = write_fully ~mode newf contents in
+  let* () = OS.Path.move ~force:true f bakf in
+  let* () = OS.Path.move ~force:true newf f in Ok ()
+
+let _ = !files |> List.iter (fun f -> fixin1 f |> R.failwith_error_msg)

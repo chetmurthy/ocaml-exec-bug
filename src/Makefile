@@ -3,7 +3,7 @@ TOP=..
 
 NOT_OCAMLFIND=not-ocamlfind
 OCAMLFIND=ocamlfind
-PACKAGES=re,fmt,unix
+PACKAGES=re,fmt,unix,bos
 
 EXE=ya-wrap-ocamlfind fixin join_meta
 

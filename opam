@@ -21,6 +21,7 @@ depends: [
   "not-ocamlfind" { >= "0.01" }
   "fmt"
   "re"
+  "bos"
 ]
 build: [
   [make "sys"]

@@ -1,7 +1,7 @@
 
 NOT_OCAMLFIND=not-ocamlfind
 
-bootstrap: ../src/join_meta.ml ../src/ya_wrap_ocamlfind.ml
+bootstrap: ../src/join_meta.ml ../src/ya_wrap_ocamlfind.ml ../src/fixin.ml
 
 
 ../src/%.ml: %.ml
