@@ -12,7 +12,7 @@ let _ =
   (parse
     ["-v", Set verbose, "verbose output";
      "--", Rest_all (fun l -> cmd := l), "the command"]
-    (fun s -> assert false) "LAUNCH [-v] <cmd>")
+    (fun s -> assert false) "LAUNCH [-v] -- <cmd>")
 
 let ( let* ) x f = Rresult.(>>=) x f
 
@@ -35,9 +35,10 @@ let _ =
   in
   match !cmd with
     exe :: _ ->
-      Fmt.
-      (pf stderr "LAUNCH: command %a\n%!"
-        (list ~sep:(const string " ") Dump.string) !cmd);
+      if !verbose then
+        Fmt.
+        (pf stderr "LAUNCH: command %a\n%!"
+          (list ~sep:(const string " ") Dump.string) !cmd);
       Ok (Unix.execvp exe (Array.of_list !cmd))
   | _ ->
       Error

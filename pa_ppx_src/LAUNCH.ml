@@ -12,7 +12,7 @@ Arg.(parse [
        ; "--", (Rest_all (fun l ->  cmd := l)),"the command"
        ]
        (fun s -> assert false)
-       "LAUNCH [-v] <cmd>"
+       "LAUNCH [-v] -- <cmd>"
 ) ;;
 
 let ( let* ) x f = Rresult.(>>=) x f
@@ -26,6 +26,6 @@ let* () = OS.Env.set_var "PATH" (Some [%pattern {|${top}/local-install/bin:${pat
 let* () = OS.Env.set_var "OCAMLPATH" (Some [%pattern {|${top}/local-install/lib:|}]) in
 match !cmd with
   exe::_ ->
-   Fmt.(pf stderr "LAUNCH: command %a\n%!" (list ~sep:(const string " ") Dump.string) !cmd) ;
+   if !verbose then Fmt.(pf stderr "LAUNCH: command %a\n%!" (list ~sep:(const string " ") Dump.string) !cmd) ;
    Ok (Unix.execvp exe (Array.of_list !cmd))
 | _ -> Error (`Msg "LAUNCH: at least one argument (the command-name) must be provided")
