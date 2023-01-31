@@ -1,3 +1,25 @@
+open Printf
+let usage = "fixin [-s] [files]"
+
+let absdirs =
+  Sys.getenv "PATH"
+  |> String.split_on_char ':'
+  |> List.filter (fun p -> p.[0] == '/') 
+  |> List.rev
+
+exception NotProcessed of string
+
+let find_executable ~verbose executable =
+  let f found dir =
+    let path = sprintf "%s/%s" dir executable in
+    if Sys.file_exists path then (
+      if verbose && found <> "" then
+        eprintf "Ignoring %s\n" path;
+      path)
+    else found in
+  ListLabels.fold_left ~init:"" absdirs ~f
+
+let parse_shebang line =
   let open StringLabels in
   if not (starts_with ~prefix:"#!" line) then
     raise (NotProcessed "doesn't start with shebang");
