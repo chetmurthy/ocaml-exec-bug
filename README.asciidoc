@@ -5,6 +5,16 @@ Sysadmin scripts written in OCaml (and Perl precursors), for use with
 Camlp5 and Camlp5-based projects.  These will allow removing
 dependency on Perl for these projects.
 
+== Invocation
+
+The scripts are not installed in a bin-directory, but rather in the
+package's directory.  So to invoke, we use the ocamlfind "exe" syntax.  For example, to invoke "fixin":
+```
+ocamlfind camlp5-buildscripts/fixin .... args ....
+```
+
+== The Scripts
+
 `fixin`::
 
 "fixes" the `#!` line of a script so that it points at an executable
