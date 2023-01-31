@@ -2,3 +2,50 @@
 
 Sysadmin scripts written in OCaml (and Perl precursors), for use with Camlp5 and
 Camlp5-based projects.
+
+`fixin`::
+
+"fixes" the `#!` line of a script so that it points at an executable
+on the current `PATH`.  That is, if the #! line is
+
+```
+#!perl
+```
+
+then it will be rewritten to the full-path of the `perl` that is found
+on the current `PATH`.
+
+`join_meta`::
+
+Joins up a bunch of `META` files into a single `META` file.  The idea
+is, you have a bunch of subdirectories, each of which has subpackages.
+One of those subpackages might actually be the "main" package, and you
+want the other subdirectories' META files to become subpackages in the
+new META file you're constructing.  And at the same time, you'll want
+to rewrite names of those subpackages.  For example, if your target
+package is `pa_ppx_perl`, and you have two subdirectories:
+
+* `pa_perl` which installs a package `pa_ppx_perl`
+* `runtime` which installs a package `pa_ppx_perl_runtime`
+
+then you might want to build a composite `META` file that is based on
+that of `pa_perl`, but has `runtime`'s `META` file as a subpackage,
+named `"runtime"`.  And then you'd want to replace all instances of
+`pa_ppx_perl_runtime` with `pa_ppx_perl.runtime` (notice "_" changes
+to ".") but only in `require` statements.
+
+`join_meta` does this.  Its usage:
+
+```
+join_meta -destdir <dir>
+  -direct-include <subdir>    directly include <subdir>/META file
+  -wrap-subdir <name>:<subdir>    include <subdir>/META file wrapped as subpackage <name>
+  -rewrite <name1>:<name2>    rewrite packages named <name1> to <name2> in `require' statements
+  -help  Display this list of options
+  --help  Display this list of options
+```
+
+`ya-wrap-ocamlfind`:::
+
+"yet another ocamlfind wrapper".  No doco yet.
+
