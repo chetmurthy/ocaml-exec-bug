@@ -34,8 +34,12 @@ let fix_interpreter ~f (exedir, exename) =
   let exename = v exename in
   let candidates = List.map (fun dir -> append dir exename) search_path in
   match List.find_opt OS.File.is_executable candidates with
-    None -> Fmt.(pf stderr "Can't find %a in PATH, %a unchanged\n%!" pp exename pp f) ; to_string (append (v exedir) exename)
-  | Some v -> Fmt.(pf stderr "Changing %a to %a\n%!" pp f pp v) ; to_string v
+    None ->
+     if !verbose then Fmt.(pf stderr "Can't find %a in PATH, %a unchanged\n%!" pp exename pp f) ;
+     to_string (append (v exedir) exename)
+  | Some v ->
+     if !verbose then Fmt.(pf stderr "Changing %a to %a\n%!" pp f pp v) ;
+     to_string v
 
 let fixin_contents ~f txt =
   let txt = [%subst {|^#!([\S]+/)?([\S]+)|} / {|"#!" ^ (fix_interpreter ~f ($1$, $2$))|} /s e] txt in
