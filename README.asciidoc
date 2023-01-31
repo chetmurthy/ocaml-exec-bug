@@ -36,7 +36,7 @@ named `"runtime"`.  And then you'd want to replace all instances of
 `pa_ppx_perl_runtime` with `pa_ppx_perl.runtime` (notice "_" changes
 to ".") but only in `require` statements.
 
-`join_meta` does this.  Its usage:
+`join_meta` does the above.  Its usage:
 
 ```
 join_meta -destdir <dir>
@@ -47,7 +47,27 @@ join_meta -destdir <dir>
   --help  Display this list of options
 ```
 
-`ya-wrap-ocamlfind`:::
+`ya-wrap-ocamlfind`::
 
 "yet another ocamlfind wrapper".  No doco yet.
 
+`LAUNCH`::
+
+`LAUNCH` assumes there is an environment variable `TOP` that is either
+a relative or absolute reference to the top-level directory of the
+current project.  It adds `$(TOP)/local-install/bin` to the `PATH` and
+sets `OCAMLPATH` to `$(TOP)/local-install/lib:` .  This is useful for
+running `ocamlfind` commands that use the `$(TOP)/local-install`
+directory as a local installation-directory (hence no need to pollute
+global install-directories with package installation during complex
+multi-step builds.  This means that when running tests (and multistep
+builds), we can assume that already-built packages are "installed" and
+can use `ocamlfind` to access them.
+
+`LAUNCH` is invoked thus:
+
+```
+ocamlfind camlp5-buildscripts/LAUNCH -v -- <cmd>
+```
+
+Note that the `--` is mandatory.
