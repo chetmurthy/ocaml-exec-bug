@@ -26,4 +26,4 @@ install::
 	rm -f META
 
 clean::
-	rm -f *.cm* $(EXE)
+	rm -f *.bak *.cm* $(EXE) META
