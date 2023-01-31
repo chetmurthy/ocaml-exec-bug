@@ -24,14 +24,15 @@ let split2 ~msg s =
   match
     (let __re__ = Re.Perl.compile_pat ~opts:[] "^([^:]+):([^:]+)$" in
      fun __subj__ ->
-       Option.map
-         (fun __g__ ->
-            Re.Group.get __g__ 0, Re.Group.get_opt __g__ 1,
-            Re.Group.get_opt __g__ 2)
-         (Re.exec_opt __re__ __subj__))
+       match
+         Option.map (fun __g__ -> Re.Group.get __g__ 1, Re.Group.get __g__ 2)
+           (Re.exec_opt __re__ __subj__)
+       with
+         exception Not_found -> None
+       | rv -> rv)
       s
   with
-    Some (_, Some name, Some subdir) -> name, subdir
+    Some (name, subdir) -> name, subdir
   | _ -> failwith Fmt.(str "%s: invalid arg <<%s>>" msg s)
 
 let _ =
