@@ -19,6 +19,7 @@ depends: [
   "ocaml"       { >= "4.10.0" & < "5.01.0" }
   "cppo"         {build}
   "not-ocamlfind" { >= "0.01" }
+  "mdx" { >= "2.2.1" }
   "fmt"
   "re"
   "bos"

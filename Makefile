@@ -1,6 +1,6 @@
 
 SYSDIRS= src
-TESTDIRS=
+TESTDIRS= test
 OCAMLFIND=ocamlfind
 
 all: sys
