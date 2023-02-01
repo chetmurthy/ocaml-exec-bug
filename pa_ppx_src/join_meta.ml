@@ -1,5 +1,15 @@
 (** -syntax camlp5o *)
 
+open Rresult
+open Bos
+open Fpath
+
+let read_fully ifile =
+  OS.File.read ifile
+
+let ( let* ) x f = Rresult.(>>=) x f
+;;
+
 let push l x = (l := x :: !l)
 
 let read_ic_fully ?(msg="") ?(channel=stdin) () =
@@ -73,11 +83,11 @@ let capturex (cmd, args) =
 ;;
 
 if !direct_include <> "" then
-  print_string (indent 2 (fixdeps(capturex([%pattern {|./${!direct_include}/mk_meta|}],[||]))))
+  print_string (indent 2 (fixdeps(R.failwith_error_msg (read_fully (v [%pattern {|./${!direct_include}/META|}])))))
 ;;
 !wrap_subdirs
 |> List.iter (fun (name, subdir) ->
-       let txt = indent 2 (fixdeps(capturex([%pattern {|./${subdir}/mk_meta|}],[||]))) in
+       let txt = indent 2 (fixdeps(R.failwith_error_msg (read_fully (v [%pattern {|./${subdir}/META|}])))) in
        print_string [%pattern {|
 package "${name}" (
 ${txt}

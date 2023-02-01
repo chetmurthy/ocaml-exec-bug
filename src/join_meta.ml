@@ -1,5 +1,13 @@
 (** -syntax camlp5o *)
 
+open Rresult
+open Bos
+open Fpath
+
+let read_fully ifile = OS.File.read ifile
+
+let ( let* ) x f = Rresult.(>>=) x f
+
 let push l x = l := x :: !l
 
 let read_ic_fully ?(msg = "") ?(channel = stdin) () =
@@ -110,9 +118,9 @@ let _ =
     print_string
       (indent 2
          (fixdeps
-            (capturex
-               (String.concat "" ["./"; !direct_include; "/mk_meta"],
-                [| |]))))
+            (R.failwith_error_msg
+               (read_fully
+                  (v (String.concat "" ["./"; !direct_include; "/META"]))))))
 let _ =
   !wrap_subdirs |>
     List.iter
@@ -120,8 +128,9 @@ let _ =
          let txt =
            indent 2
              (fixdeps
-                (capturex
-                   (String.concat "" ["./"; subdir; "/mk_meta"], [| |])))
+                (R.failwith_error_msg
+                   (read_fully
+                      (v (String.concat "" ["./"; subdir; "/META"])))))
          in
          print_string
            (String.concat "" ["\npackage \""; name; "\" (\n"; txt; "\n)\n"]))

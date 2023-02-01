@@ -10,6 +10,8 @@ let read_fully ifile =
 
 let write_fully ~mode ofile txt =
   OS.File.write ~mode ofile txt
+
+let ( let* ) x f = Rresult.(>>=) x f
 ;;
 
 let verbose = ref true ;;
@@ -22,8 +24,6 @@ Arg.(parse [
        (fun s -> push files s)
      "fixin [-s] <files>")
 ;;
-
-let ( let* ) x f = Rresult.(>>=) x f
 
 let search_path = 
   let dirs = String.split_on_char ':' (Sys.getenv "PATH") in
