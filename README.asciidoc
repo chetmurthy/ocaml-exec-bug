@@ -30,7 +30,7 @@ on the current `PATH`.
 `join_meta`::
 
 Joins up a bunch of `META` files into a single `META` file.  The idea
-is, you have a bunch of subdirectories, each of which has subpackages.
+is, you have a bunch of subdirectories, each of which installs a subpackage.
 One of those subpackages might actually be the "main" package, and you
 want the other subdirectories' META files to become subpackages in the
 new META file you're constructing.  And at the same time, you'll want
@@ -56,6 +56,9 @@ join_meta -destdir <dir>
   -help  Display this list of options
   --help  Display this list of options
 ```
+
+It assumes that every subdirectory has a `META` file already-created,
+and joins them up, outputing the result to stdout.
 
 `ya-wrap-ocamlfind`::
 
