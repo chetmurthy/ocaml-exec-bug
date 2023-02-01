@@ -1,4 +1,4 @@
-synopsis: "Camlp5 Build scripts (written in OCaml)
+synopsis: "Camlp5 Build scripts (written in OCaml)"
 description:
 """
 These are build-scripts that are helpful in building Camlp5 and packages based on Camlp5.
