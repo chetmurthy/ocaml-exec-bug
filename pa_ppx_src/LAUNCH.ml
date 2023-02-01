@@ -11,8 +11,8 @@ Arg.(parse [
          "-v", (Set verbose),"verbose output"
        ; "--", (Rest_all (fun l ->  cmd := l)),"the command"
        ]
-       (fun s -> assert false)
-       "LAUNCH [-v] -- <cmd>"
+       (fun s -> cmd := !cmd @ [s])
+       "LAUNCH [-v] [--] <cmd>"
 ) ;;
 
 let ( let* ) x f = Rresult.(>>=) x f
