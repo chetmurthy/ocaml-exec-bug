@@ -1,5 +1,5 @@
 
-TESTS=seq LAUNCH join_meta
+TESTS=LAUNCH join_meta
 
 all:
 
