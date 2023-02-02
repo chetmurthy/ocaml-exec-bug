@@ -8,3 +8,6 @@ test: $(TESTS)
 %: %.md
 	rm -f $<.corrected
 	ocaml-mdx test $< && test '!' -f $<.corrected
+
+clean::
+	rm -f *.corrected

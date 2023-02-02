@@ -11,7 +11,7 @@ let _ =
   Arg.
   (parse
     ["-v", Set verbose, "verbose output";
-     "--", Rest_all (fun l -> cmd := l), "the command"]
+     "--", Rest (fun s -> cmd := !cmd @ [s]), "the command"]
     (fun s -> cmd := !cmd @ [s]) "LAUNCH [-v] [--] <cmd>")
 
 let ( let* ) x f = Rresult.(>>=) x f
