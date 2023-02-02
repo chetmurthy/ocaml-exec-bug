@@ -17,15 +17,21 @@ Arg.(parse [
 
 let ( let* ) x f = Rresult.(>>=) x f
 
-let top =
-  match OS.Env.var "TOP" with
-    Some v -> v
-  | None -> failwith "LAUNCH: environment variable TOP *must* be set to use this wrapper" in
-let* path = OS.Env.req_var "PATH" in
-let* () = OS.Env.set_var "PATH" (Some [%pattern {|${top}/local-install/bin:${path}|}]) in
-let* () = OS.Env.set_var "OCAMLPATH" (Some [%pattern {|${top}/local-install/lib:|}]) in
-match !cmd with
-  exe::_ ->
-   if !verbose then Fmt.(pf stderr "LAUNCH: command %a\n%!" (list ~sep:(const string " ") Dump.string) !cmd) ;
-   Ok (Unix.execvp exe (Array.of_list !cmd))
-| _ -> Error (`Msg "LAUNCH: at least one argument (the command-name) must be provided")
+let main () =
+  let* top =
+    match OS.Env.var "TOP" with
+      Some v -> Ok v
+    | None -> Error (`Msg "LAUNCH: environment variable TOP *must* be set to use this wrapper") in
+  let* path = OS.Env.req_var "PATH" in
+  let* () = OS.Env.set_var "PATH" (Some [%pattern {|${top}/local-install/bin:${path}|}]) in
+  let* () = OS.Env.set_var "OCAMLPATH" (Some [%pattern {|${top}/local-install/lib:|}]) in
+  match !cmd with
+    exe::_ ->
+     if !verbose then Fmt.(pf stderr "LAUNCH: command %a\n%!" (list ~sep:(const string " ") Dump.string) !cmd) ;
+     Ok (Unix.execvp exe (Array.of_list !cmd))
+    | _ -> Error (`Msg "LAUNCH: at least one argument (the command-name) must be provided")
+;;
+
+try R.failwith_error_msg (main ())
+with exc ->
+  Fmt.(pf stderr "%a\n%!" exn exc)

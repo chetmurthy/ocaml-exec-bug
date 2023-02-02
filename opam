@@ -16,16 +16,21 @@ dev-repo: "git+https://github.com/camlp5/camlp5-buildscripts.git"
 doc: "https://github.com/camlp5/camlp5-buildscripts/doc"
 
 depends: [
-  "ocaml"       { >= "4.10.0" & < "5.01.0" }
-  "cppo"         {build}
+  "ocaml"       { >= "4.10.0" }
   "not-ocamlfind" { >= "0.01" }
-  "mdx" { >= "2.2.1" }
+  "mdx" { with-test & >= "2.2.1" }
   "fmt"
-  "re"
-  "bos"
+  "re" { >= "1.10.4" }
+  "bos" { >= "0.2.1" }
 ]
 build: [
   [make "sys"]
   [make "test"] {with-test}
 ]
 install: [make "install"]
+url {
+  src: ""
+  checksum: [
+    "sha512="
+  ]
+}

@@ -16,13 +16,14 @@ let _ =
 
 let ( let* ) x f = Rresult.(>>=) x f
 
-let _ =
-  let top =
+let main () =
+  let* top =
     match OS.Env.var "TOP" with
-      Some v -> v
+      Some v -> Ok v
     | None ->
-        failwith
-          "LAUNCH: environment variable TOP *must* be set to use this wrapper"
+        Error
+          (`Msg
+             "LAUNCH: environment variable TOP *must* be set to use this wrapper")
   in
   let* path = OS.Env.req_var "PATH" in
   let* () =
@@ -44,3 +45,7 @@ let _ =
       Error
         (`Msg
            "LAUNCH: at least one argument (the command-name) must be provided")
+
+let _ =
+  try R.failwith_error_msg (main ()) with
+    exc -> Fmt.(pf stderr "%a\n%!" exn exc)
