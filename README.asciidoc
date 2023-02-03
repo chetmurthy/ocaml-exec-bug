@@ -35,15 +35,15 @@ One of those subpackages might actually be the "main" package, and you
 want the other subdirectories' META files to become subpackages in the
 new META file you're constructing.  And at the same time, you'll want
 to rewrite names of those subpackages.  For example, if your target
-package is `pa_ppx_perl`, and you have two subdirectories:
+package is `pa_ppx_regexp`, and you have two subdirectories:
 
-* `pa_perl` which installs a package `pa_ppx_perl`
-* `runtime` which installs a package `pa_ppx_perl_runtime`
+* `pa_perl` which installs a package `pa_ppx_regexp`
+* `runtime` which installs a package `pa_ppx_regexp_runtime`
 
 then you might want to build a composite `META` file that is based on
 that of `pa_perl`, but has `runtime`'s `META` file as a subpackage,
 named `"runtime"`.  And then you'd want to replace all instances of
-`pa_ppx_perl_runtime` with `pa_ppx_perl.runtime` (notice "_" changes
+`pa_ppx_regexp_runtime` with `pa_ppx_regexp.runtime` (notice "_" changes
 to ".") but only in `require` statements.
 
 `join_meta` does the above.  Its usage:
@@ -89,7 +89,7 @@ Note that the `--` is mandatory.
 
 There are two directories containing these scripts: `pa_ppx_src` and
 `src`.  The former directory contains scripts that are written using
-`pa_ppx_perl` and whatever other PPX rewriters one might desire.  The
+`pa_ppx_regexp` and whatever other PPX rewriters one might desire.  The
 latter directory contains those same scripts, but after expansion via
 `not-ocamlfind preprocess` The "make all install" process only builds
 the scripts in `src`, so PPX rewriters are not necessary to build and
