@@ -86,6 +86,7 @@ if !direct_include <> "" then
   print_string (indent 2 (fixdeps(R.failwith_error_msg (read_fully (v [%pattern {|./${!direct_include}/META|}])))))
 ;;
 !wrap_subdirs
+|> List.rev
 |> List.iter (fun (name, subdir) ->
        let txt = indent 2 (fixdeps(R.failwith_error_msg (read_fully (v [%pattern {|./${subdir}/META|}])))) in
        print_string [%pattern {|

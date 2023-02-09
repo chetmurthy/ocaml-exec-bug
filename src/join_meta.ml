@@ -122,7 +122,7 @@ let _ =
                (read_fully
                   (v (String.concat "" ["./"; !direct_include; "/META"]))))))
 let _ =
-  !wrap_subdirs |>
+  (!wrap_subdirs |> List.rev) |>
     List.iter
       (fun (name, subdir) ->
          let txt =
