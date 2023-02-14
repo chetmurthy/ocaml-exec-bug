@@ -1,5 +1,5 @@
 
-TESTS=LAUNCH join_meta
+TESTS=LAUNCH join_meta ya-wrap-ocamlfind
 
 all:
 

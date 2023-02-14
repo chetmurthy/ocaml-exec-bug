@@ -36,21 +36,31 @@ let envsubst s =
 
 let discover_args f =
   let f' = open_in f in
-  let line1 = input_line f' in
-  close_in f';
-  match
-    (let __re__ = Re.Perl.compile_pat ~opts:[] "^\\(\\*\\*(.*?)\\*\\)" in
-     fun __subj__ ->
-       match
-         Option.map (fun __g__ -> Re.Group.get __g__ 1)
-           (Re.exec_opt __re__ __subj__)
-       with
-         exception Not_found -> None
-       | rv -> rv)
-      line1
-  with
-    None -> ""
-  | Some params -> envsubst params
+  let rec drec () =
+    let line1 = input_line f' in
+    match
+      (let __re__ = Re.Perl.compile_pat ~opts:[] "^\\s+$" in
+       fun __subj__ -> Re.execp __re__ __subj__)
+        line1,
+      (let __re__ = Re.Perl.compile_pat ~opts:[] "^#.*$" in
+       fun __subj__ -> Re.execp __re__ __subj__)
+        line1,
+      (let __re__ = Re.Perl.compile_pat ~opts:[] "^\\(\\*\\*(.*?)\\*\\)" in
+       fun __subj__ ->
+         match
+           Option.map (fun __g__ -> Re.Group.get __g__ 1)
+             (Re.exec_opt __re__ __subj__)
+         with
+           exception Not_found -> None
+         | rv -> rv)
+        line1
+    with
+      true, _, _ -> drec ()
+    | _, true, _ -> drec ()
+    | _, _, None -> ""
+    | _, _, Some params -> envsubst params
+  in
+  let rv = drec () in close_in f'; rv
 
 let () =
   let (cmd, files) = (Array.to_list Sys.argv |> List.tl) |> split_args in

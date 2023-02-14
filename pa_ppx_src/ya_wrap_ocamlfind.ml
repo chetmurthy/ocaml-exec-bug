@@ -20,11 +20,19 @@ let envsubst s =
 
 let discover_args f =
   let f' = open_in f in
-  let line1 = input_line f' in
+  let rec drec () =
+    let line1 = input_line f' in
+    match ([%match {|^\s+$|} / pred] line1,
+           [%match {|^#.*$|} / pred] line1,
+           [%match {|^\(\*\*(.*?)\*\)|} / strings !1] line1) with
+    | (true, _, _) -> drec ()
+    | (_, true, _) -> drec ()
+    | (_, _, None) -> ""
+    | (_, _, Some params) -> envsubst params in
+
+  let rv = drec () in
   close_in f';
-  match [%match {|^\(\*\*(.*?)\*\)|} / strings !1] line1 with
-  | None -> ""
-  | Some params -> envsubst params
+  rv
 
 let () = 
   let cmd, files =
