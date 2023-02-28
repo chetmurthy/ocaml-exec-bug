@@ -24,7 +24,7 @@ let discover_args f =
     let line1 = input_line f' in
     match ([%match {|^\s+$|} / pred] line1,
            [%match {|^#.*$|} / pred] line1,
-           [%match {|^\(\*\*(.*?)\*\)|} / strings !1] line1) with
+           [%match {|^\(\*\*pp (.*?)\*\)|} / strings !1] line1) with
     | (true, _, _) -> drec ()
     | (_, true, _) -> drec ()
     | (_, _, None) -> ""

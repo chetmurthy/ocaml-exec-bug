@@ -45,7 +45,7 @@ let discover_args f =
       (let __re__ = Re.Perl.compile_pat ~opts:[] "^#.*$" in
        fun __subj__ -> Re.execp __re__ __subj__)
         line1,
-      (let __re__ = Re.Perl.compile_pat ~opts:[] "^\\(\\*\\*(.*?)\\*\\)" in
+      (let __re__ = Re.Perl.compile_pat ~opts:[] "^\\(\\*\\*pp (.*?)\\*\\)" in
        fun __subj__ ->
          match
            Option.map (fun __g__ -> Re.Group.get __g__ 1)

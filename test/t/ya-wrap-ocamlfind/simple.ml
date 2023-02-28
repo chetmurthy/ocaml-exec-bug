@@ -1,2 +1,2 @@
-(** -syntax goober *)
+(**pp -syntax goober *)
 let x = 1
