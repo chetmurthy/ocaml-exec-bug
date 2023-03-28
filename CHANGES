@@ -1,4 +1,13 @@
 
+camlp5-buildscripts Version 0.02
+-------------------
+
+* [30 Jan 2023] some small changes
+  ya-wrap-ocamlfind: change syntax of header comment to "(**pp ... *)"
+  join_meta: reverse order of subdirs for wrap-subdirs, so more comprehensible to invokers
+
+  all: change bootstrap to not generate static blocks, switch to pa_ppx_regexp
+
 camlp5-buildscripts Version 0.01
 -------------------
 
