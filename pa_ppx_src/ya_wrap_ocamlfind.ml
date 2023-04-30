@@ -43,5 +43,7 @@ let () =
       let extra = discover_args f in
       let cmd = [%pattern {|${cmd} ${extra} ${f}|}] in
       Printf.fprintf stderr "%s\n%!" cmd;
-      ignore (Sys.command cmd))
+      let rc = Sys.command cmd in
+      if rc <> 0 then exit 0
+    )
     files

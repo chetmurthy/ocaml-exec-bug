@@ -69,5 +69,6 @@ let () =
     (fun f ->
        let extra = discover_args f in
        let cmd = String.concat "" [cmd; " "; extra; " "; f] in
-       Printf.fprintf stderr "%s\n%!" cmd; ignore (Sys.command cmd))
+       Printf.fprintf stderr "%s\n%!" cmd;
+       let rc = Sys.command cmd in if rc <> 0 then exit 0)
     files
