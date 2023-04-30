@@ -44,6 +44,6 @@ let () =
       let cmd = [%pattern {|${cmd} ${extra} ${f}|}] in
       Printf.fprintf stderr "%s\n%!" cmd;
       let rc = Sys.command cmd in
-      if rc <> 0 then exit 0
+      if rc <> 0 then exit rc
     )
     files
