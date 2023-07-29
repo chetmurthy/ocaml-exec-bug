@@ -1,3 +1,4 @@
+version: "0.03"
 synopsis: "Camlp5 Build scripts (written in OCaml)"
 description:
 """
