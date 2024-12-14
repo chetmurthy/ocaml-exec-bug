@@ -1,3 +1,7 @@
+camlp5-buildscripts Version 0.04
+-------------------
+
+* [13 Dec 2024] tiny fixup for Makefile, to support Windows.  Thanks to @tobil4sk for this!
 
 camlp5-buildscripts Version 0.03
 -------------------
