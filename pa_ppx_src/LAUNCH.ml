@@ -6,9 +6,11 @@ open Fpath
 let push l x = (l := x :: !l)
 
 let verbose = ref false ;;
+let veryverbose = ref false ;;
 let cmd = ref [] ;;
 Arg.(parse [
          "-v", (Set verbose),"verbose output"
+       ; "-vv", Set veryverbose, "very verbose output"
        ; "--", (Rest (fun s ->  cmd := !cmd @ [s])),"the command"
        ]
        (fun s -> cmd := !cmd @ [s])
@@ -23,11 +25,21 @@ let main () =
       Some v -> Ok v
     | None -> Error (`Msg "LAUNCH: environment variable TOP *must* be set to use this wrapper") in
   let* path = OS.Env.req_var "PATH" in
-  let* () = OS.Env.set_var "PATH" (Some [%pattern {|${top}/local-install/bin:${path}|}]) in
-  let* () = OS.Env.set_var "OCAMLPATH" (Some [%pattern {|${top}/local-install/lib:|}]) in
+  let newpath = [%pattern {|${top}/local-install/bin:${path}|}] in
+  let* () =
+    OS.Env.set_var "PATH" (Some newpath)
+  in
+  let newcamlpath = [%pattern {|${top}/local-install/lib:|}] in
+  let* () = OS.Env.set_var "OCAMLPATH" (Some newcamlpath) in
   match !cmd with
     exe::_ ->
      if !verbose then Fmt.(pf stderr "LAUNCH: command %a\n%!" (list ~sep:(const string " ") Dump.string) !cmd) ;
+      if !veryverbose then
+        Fmt.
+        (pf stderr "LAUNCH: env PATH=%a OCAMLPATH=%a %a\n%!"
+           Dump.string newpath
+           Dump.string newcamlpath
+           (list ~sep:(const string " ") Dump.string) !cmd);
      Ok (Unix.execvp exe (Array.of_list !cmd))
     | _ -> Error (`Msg "LAUNCH: at least one argument (the command-name) must be provided")
 ;;
