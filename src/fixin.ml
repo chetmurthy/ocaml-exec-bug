@@ -19,8 +19,9 @@ let _ =
   (parse ["-s", Arg.Clear verbose, "silence verbosity"]
     (fun s -> push files s) "fixin [-s] <files>")
 
-let path_var_separator = match Sys.os_type with
-  | "Unix" -> ':'
+let path_var_separator =
+  match Sys.os_type with
+    "Unix" -> ':'
   | _ -> ';'
 
 let search_path =
