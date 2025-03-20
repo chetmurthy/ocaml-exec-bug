@@ -1,6 +1,11 @@
 camlp5-buildscripts Version 0.05
 --------------------------------
 
+* [19 Mar 2025] Windows fixup: this time, fixing path-separator (thanks, @tobil4sk)
+
+camlp5-buildscripts Version 0.05
+--------------------------------
+
 * [19 Mar 2025] more fixups to try to make this work on Windows
 
 camlp5-buildscripts Version 0.04
