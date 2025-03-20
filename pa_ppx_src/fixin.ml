@@ -25,8 +25,12 @@ Arg.(parse [
      "fixin [-s] <files>")
 ;;
 
-let search_path = 
-  let dirs = String.split_on_char ':' (Sys.getenv "PATH") in
+let path_var_separator = match Sys.os_type with
+  | "Unix" -> ':'
+  | _ -> ';'
+
+let search_path =
+  let dirs = String.split_on_char path_var_separator (Sys.getenv "PATH") in
   List.map Fpath.v dirs
 
 let fix_interpreter ~f (exedir, exename) =

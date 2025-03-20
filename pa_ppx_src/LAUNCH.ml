@@ -24,12 +24,16 @@ let main () =
     match OS.Env.var "TOP" with
       Some v -> Ok v
     | None -> Error (`Msg "LAUNCH: environment variable TOP *must* be set to use this wrapper") in
+  let path_var_separator = match Sys.os_type with
+  | "Unix" -> ":"
+  | _ -> ";"
+  in
   let* path = OS.Env.req_var "PATH" in
-  let newpath = [%pattern {|${top}/local-install/bin:${path}|}] in
+  let newpath = [%pattern {|${top}/local-install/bin${path_var_separator}${path}|}] in
   let* () =
     OS.Env.set_var "PATH" (Some newpath)
   in
-  let newcamlpath = [%pattern {|${top}/local-install/lib:|}] in
+  let newcamlpath = [%pattern {|${top}/local-install/lib${path_var_separator}|}] in
   let* () = OS.Env.set_var "OCAMLPATH" (Some newcamlpath) in
   match !cmd with
     exe::_ ->
