@@ -6,4 +6,4 @@
 ```sh
  $ env TOP=.. ../src/LAUNCH echo foo
  foo
- ```
+```
