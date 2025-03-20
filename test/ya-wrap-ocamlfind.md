@@ -5,6 +5,25 @@ $ ../src/ya-wrap-ocamlfind echo t/ya-wrap-ocamlfind/simple.ml
 ```
 
 ```sh
+$ rm -f t/ya-wrap-ocamlfind/use_str.cm*
+$ ../src/ya-wrap-ocamlfind ocamlfind ocamlc -c t/ya-wrap-ocamlfind/use_str.ml
+'ocamlfind' 'ocamlc' '-c' -package str  t/ya-wrap-ocamlfind/use_str.ml
+$ ls t/ya-wrap-ocamlfind/use_str.cm*
+t/ya-wrap-ocamlfind/use_str.cmi
+t/ya-wrap-ocamlfind/use_str.cmo
+```
+
+```sh
+$ rm -f t/ya-wrap-ocamlfind/use_str.cm*
+$ TOP=.. ../src/LAUNCH -v -- ../src/ya-wrap-ocamlfind ocamlfind ocamlc -c t/ya-wrap-ocamlfind/use_str.ml
+LAUNCH: command "../src/ya-wrap-ocamlfind" "ocamlfind" "ocamlc" "-c" "t/ya-wrap-ocamlfind/use_str.ml"
+'ocamlfind' 'ocamlc' '-c' -package str  t/ya-wrap-ocamlfind/use_str.ml
+$ ls t/ya-wrap-ocamlfind/use_str.cm*
+t/ya-wrap-ocamlfind/use_str.cmi
+t/ya-wrap-ocamlfind/use_str.cmo
+```
+
+```sh
 $ PAPACKAGES=foo,bar ../src/ya-wrap-ocamlfind echo t/ya-wrap-ocamlfind/after-cppo.ml
 'echo' -syntax camlp5o -package foo,bar  t/ya-wrap-ocamlfind/after-cppo.ml
 -syntax camlp5o -package foo,bar t/ya-wrap-ocamlfind/after-cppo.ml
