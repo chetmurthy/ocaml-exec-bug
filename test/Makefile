@@ -8,7 +8,7 @@ test: $(TESTS)
 %: %.md
 	rm -f $<.corrected
 	ocaml-mdx test $<
-	test '!' -f $<.corrected || diff -Bwiu $< $<.corrected
+	test '!' -f $<.corrected || diff -I '```' -Bwiu $< $<.corrected
 
 clean::
 	rm -f *.corrected
