@@ -44,7 +44,7 @@ jobs:
       # Check building with make
       - run: opam exec -- make sys
       - run: opam exec -- make test
-      - run: opam exec -- make clean
+#      - run: opam exec -- make clean
 
       # Check installing with opam
       - run: opam install --strict camlp5-buildscripts
