@@ -37,18 +37,20 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-version }}
 
-      # Dependencies
-      - run: opam install . --deps-only --with-doc --with-test
-      - run: opam pin add camlp5-buildscripts . --no-action
+      - name: Setup Dependencies
+        run: |
+          opam install . --deps-only --with-doc --with-test
+          opam pin add camlp5-buildscripts . --no-action
 
-      # Check building with make
-      - run: opam exec -- make sys
-      - run: opam exec -- make test
-#      - run: opam exec -- make clean
+      - name: Check building with make
+        run: |
+          opam exec -- make sys
+          opam exec -- make test
+#	  opam exec -- make clean
 
-      # Check installing with opam
-      - run: opam install --strict camlp5-buildscripts
-
+      - name: Check installing with opam
+        run: |
+          opam install --strict camlp5-buildscripts
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
