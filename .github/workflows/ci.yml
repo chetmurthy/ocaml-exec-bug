@@ -52,6 +52,7 @@ jobs:
 #	  opam exec -- make clean
 
       - name: Install it with opam
+        if: always()
         run: |
           opam install --strict camlp5-buildscripts
 
