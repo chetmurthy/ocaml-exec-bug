@@ -50,7 +50,8 @@ jobs:
       - run: opam install --strict camlp5-buildscripts
 
 
-      - uses: actions/upload-artifact@v3
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
         with:
-          name: Test Results
-          path: test
+          name: test-results
+          path: test/*
