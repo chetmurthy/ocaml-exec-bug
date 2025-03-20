@@ -12,19 +12,19 @@ jobs:
       # and trunk.
       matrix:
         os:
-          - macos-latest
-          - ubuntu-latest
+#          - macos-latest
+#          - ubuntu-latest
           - windows-latest
         ocaml-version:
-          - "4.14"
+#          - "4.14"
           - "5.3"
-        include:
-          - os: ubuntu-latest
-            ocaml-version: "4.10"
-          - os: macos-13
-            ocaml-version: "4.10"
-          - os: macos-latest
-            ocaml-version: "4.10"
+#        include:
+#          - os: ubuntu-latest
+#            ocaml-version: "4.10"
+#          - os: macos-13
+#            ocaml-version: "4.10"
+#          - os: macos-latest
+#            ocaml-version: "4.10"
 
     runs-on: ${{ matrix.os }}
 
@@ -49,8 +49,15 @@ jobs:
       - name: Test it with make
         run: |
           opam exec -- make test
-	  opam exec -- make clean
+#	  opam exec -- make clean
 
       - name: Install it with opam
         run: |
           opam install --strict camlp5-buildscripts
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test/*

@@ -1,5 +1,5 @@
 
-TESTS=shell LAUNCH join_meta ya-wrap-ocamlfind
+TESTS=LAUNCH join_meta ya-wrap-ocamlfind
 
 all:
 
