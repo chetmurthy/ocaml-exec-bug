@@ -1,14 +1,10 @@
 
-TESTS=LAUNCH join_meta ya-wrap-ocamlfind
+TESTDIRS=simple
 
-all:
+all: test
 
-test: $(TESTS)
-
-%: %.md
-	rm -f $<.corrected
-	ocaml-mdx test $<
-	test '!' -f $<.corrected || diff -I '```' -Bwiu $< $<.corrected
+test::
+	set -e; for i in $(TESTDIRS); do cd $$i; $(MAKE) test; cd ..; done
 
 clean::
-	rm -f *.corrected
+	set -e; for i in $(TESTDIRS); do cd $$i; $(MAKE) clean; cd ..; done

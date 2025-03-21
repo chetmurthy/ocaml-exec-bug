@@ -1,5 +1,5 @@
 ```sh
- $ ../src//join_meta -rewrite pa_ppx_regexp_runtime:pa_ppx_regexp.runtime -direct-include t/join_meta/pa_perl -wrap-subdir runtime:t/join_meta/runtime
+ $ ../../src/join_meta -rewrite pa_ppx_regexp_runtime:pa_ppx_regexp.runtime -direct-include t/join_meta/pa_perl -wrap-subdir runtime:t/join_meta/runtime
  
    # Specifications for the "pa_ppx_regexp" preprocessor:
    requires = "camlp5,fmt,re,pa_ppx.base,pa_ppx_regexp.runtime,camlp5.parser_quotations"
@@ -41,7 +41,7 @@
  ```
 
 ```sh
- $ env TOP=.. ../src/LAUNCH -- ocamlfind camlp5-buildscripts/join_meta -rewrite pa_ppx_regexp_runtime:pa_ppx_regexp.runtime -direct-include t/join_meta/pa_perl -wrap-subdir runtime:t/join_meta/runtime
+ $ env TOP=../.. ../../src/LAUNCH -- ocamlfind camlp5-buildscripts/join_meta -rewrite pa_ppx_regexp_runtime:pa_ppx_regexp.runtime -direct-include t/join_meta/pa_perl -wrap-subdir runtime:t/join_meta/runtime
  
    # Specifications for the "pa_ppx_regexp" preprocessor:
    requires = "camlp5,fmt,re,pa_ppx.base,pa_ppx_regexp.runtime,camlp5.parser_quotations"
