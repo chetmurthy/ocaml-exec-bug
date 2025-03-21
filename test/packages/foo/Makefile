@@ -11,7 +11,7 @@ install: foo.cmo
 	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib foo META foo.cmo foo.cmi || /bin/true
 
 uninstall::
-	$(OCAMLFIND) remove -destdir $(TOP)/local-install/lib foo
+	$(OCAMLFIND) remove -destdir $(TOP)/local-install/lib foo || /bin/true
 
 foo.cmi foo.cmo:
 	$(OCAMLFIND) ocamlc -c foo.ml

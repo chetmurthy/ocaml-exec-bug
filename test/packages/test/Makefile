@@ -15,4 +15,4 @@ justfoo:
 	$(OCAMLFIND) ocamlc -package foo -linkall -linkpkg justfoo.ml -o justfoo
 
 clean::
-	rm -f *.cm* foobar justfoo
+	rm -f *.cm* foobar justfoo andbuzz
