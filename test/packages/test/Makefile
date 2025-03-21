@@ -1,7 +1,7 @@
 TOP=../../..
 
-LAUNCH=TOP=$(TOP) $(TOP)/src/LAUNCH
-OCAMLFIND=$(LAUNCH) -- ocamlfind 
+LAUNCH=env TOP=$(TOP) $(TOP)/src/LAUNCH$(EXE) -vv --
+OCAMLFIND=$(LAUNCH) ocamlfind 
 
 all test: justfoo foobar andbuzz
 
