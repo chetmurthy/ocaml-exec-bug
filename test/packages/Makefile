@@ -1,5 +1,5 @@
 
-TESTDIRS=simple packages
+TESTDIRS=foo bar test
 
 all: test
 

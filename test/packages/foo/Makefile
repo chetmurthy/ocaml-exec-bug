@@ -3,7 +3,7 @@ TOP=../../..
 LAUNCH=TOP=$(TOP) $(TOP)/src/LAUNCH
 OCAMLFIND=$(LAUNCH) -- ocamlfind 
 
-all:: install
+test all:: install
 
 install: foo.cmo
 	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib foo META foo.cmo foo.cmi || /bin/true
