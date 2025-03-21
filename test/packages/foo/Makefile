@@ -8,10 +8,10 @@ test:
 all: install
 
 install: foo.cmo
-	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib foo META foo.cmo foo.cmi || /bin/true
+	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib foo META foo.cmo foo.cmi || true
 
 uninstall::
-	$(OCAMLFIND) remove -destdir $(TOP)/local-install/lib foo || /bin/true
+	$(OCAMLFIND) remove -destdir $(TOP)/local-install/lib foo || true
 
 foo.cmi foo.cmo:
 	$(OCAMLFIND) ocamlc -c foo.ml

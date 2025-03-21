@@ -8,10 +8,10 @@ test:
 all: install
 
 install: bar.cmo buzz.cmi
-	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib bar META bar.cmo bar.cmi buzz.cmo buzz.cmi || /bin/true
+	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib bar META bar.cmo bar.cmi buzz.cmo buzz.cmi || true
 
 uninstall::
-	$(OCAMLFIND) remove -destdir $(TOP)/local-install/lib bar || /bin/true
+	$(OCAMLFIND) remove -destdir $(TOP)/local-install/lib bar || true
 
 bar.cmi bar.cmo:
 	$(OCAMLFIND) ocamlc -package foo -c bar.ml
