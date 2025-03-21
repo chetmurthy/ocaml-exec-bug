@@ -1,0 +1,18 @@
+TOP=../../..
+
+LAUNCH=TOP=$(TOP) $(TOP)/src/LAUNCH
+OCAMLFIND=$(LAUNCH) -- ocamlfind 
+
+all:: install
+
+install: foo.cmo
+	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib foo META foo.cmo foo.cmi || /bin/true
+
+uninstall::
+	$(OCAMLFIND) remove -destdir $(TOP)/local-install/lib foo
+
+foo.cmi foo.cmo:
+	$(OCAMLFIND) ocamlc -c foo.ml
+
+clean:: uninstall
+	rm -f *.cm*
