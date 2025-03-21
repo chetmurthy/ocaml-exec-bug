@@ -1,1 +1,1 @@
-let name = Foo.name ^ "bar"
+let name = Foo.name ^ "buzz"
