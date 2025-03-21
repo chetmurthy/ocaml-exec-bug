@@ -15,7 +15,7 @@ test: all
 bootstrap:
 	$(MAKE) -C pa_ppx_src bootstrap
 
-install: all
+install: sys
 	$(OCAMLFIND) remove camlp5-buildscripts || true
 	$(OCAMLFIND) install camlp5-buildscripts local-install/lib/camlp5-buildscripts/*
 

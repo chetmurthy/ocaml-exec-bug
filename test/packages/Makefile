@@ -1,7 +1,8 @@
 
 TESTDIRS=foo bar test
 
-all: test
+all:
+	set -e; for i in $(TESTDIRS); do cd $$i; $(MAKE) all; cd ..; done
 
 test::
 	set -e; for i in $(TESTDIRS); do cd $$i; $(MAKE) test; cd ..; done

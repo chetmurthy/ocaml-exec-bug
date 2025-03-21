@@ -3,7 +3,7 @@ TOP=../../..
 LAUNCH=TOP=$(TOP) $(TOP)/src/LAUNCH
 OCAMLFIND=$(LAUNCH) -- ocamlfind 
 
-test all: justfoo foobar andbuzz
+all test: justfoo foobar andbuzz
 
 foobar:
 	$(OCAMLFIND) ocamlc -package bar -linkall -linkpkg foobar.ml -o foobar

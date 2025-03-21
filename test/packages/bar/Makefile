@@ -3,7 +3,9 @@ TOP=../../..
 LAUNCH=TOP=$(TOP) $(TOP)/src/LAUNCH
 OCAMLFIND=$(LAUNCH) -- ocamlfind 
 
-test all: install
+test:
+
+all: install
 
 install: bar.cmo buzz.cmi
 	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib bar META bar.cmo bar.cmi buzz.cmo buzz.cmi || /bin/true
