@@ -5,14 +5,17 @@ OCAMLFIND=$(LAUNCH) -- ocamlfind
 
 test all: install
 
-install: bar.cmo
-	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib bar META bar.cmo bar.cmi || /bin/true
+install: bar.cmo buzz.cmi
+	$(OCAMLFIND) install -destdir $(TOP)/local-install/lib bar META bar.cmo bar.cmi buzz.cmo buzz.cmi || /bin/true
 
 uninstall::
 	$(OCAMLFIND) remove -destdir $(TOP)/local-install/lib bar
 
 bar.cmi bar.cmo:
 	$(OCAMLFIND) ocamlc -package foo -c bar.ml
+
+buzz.cmi buzz.cmo:
+	$(OCAMLFIND) ocamlc -package foo -c buzz.ml
 
 clean:: uninstall
 	rm -f *.cm*
