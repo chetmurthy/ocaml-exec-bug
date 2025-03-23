@@ -1,4 +1,5 @@
 
+export EXE=$(shell ocamlc -config-var ext_exe)
 TESTS=LAUNCH join_meta ya-wrap-ocamlfind
 
 all:
