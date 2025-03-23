@@ -14,6 +14,7 @@ PACKAGES=re,fmt,unix,bos
 BIN=ya-wrap-ocamlfind$(EXE) fixin$(EXE) join_meta$(EXE) LAUNCH$(EXE) LAUNCH
 
 all: $(BIN)
+	echo BIN: $(BIN)
 	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install
 
 ya-wrap-ocamlfind$(EXE): ya_wrap_ocamlfind.ml
