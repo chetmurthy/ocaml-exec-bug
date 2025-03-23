@@ -11,7 +11,7 @@ NOT_OCAMLFIND=not-ocamlfind
 OCAMLFIND=ocamlfind
 PACKAGES=re,fmt,unix,bos
 
-BIN=ya-wrap-ocamlfind$(EXE) fixin$(EXE) join_meta$(EXE) LAUNCH$(EXE) LAUNCH
+BIN=ya-wrap-ocamlfind$(EXE) fixin$(EXE) join_meta$(EXE) LAUNCH$(EXE)
 
 all: $(BIN)
 	echo BIN: $(BIN)
