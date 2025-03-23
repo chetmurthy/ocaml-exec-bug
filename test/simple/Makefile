@@ -5,7 +5,6 @@ TESTS=LAUNCH join_meta ya-wrap-ocamlfind
 all:
 
 test: $(TESTS)
-	bash -x ./LAUNCH.sh
 	./LAUNCH.sh > LAUNCH.sh.output 2>&1
 	diff -Bwiu t/LAUNCH/LAUNCH.sh.expected LAUNCH.sh.output
 
