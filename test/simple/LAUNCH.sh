@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "================"
-../../src/LAUNCH echo foo
+../../src/LAUNCH echo foo  || echo expect-this
 
 echo "================"
 env TOP=../.. ../../src/LAUNCH echo foo

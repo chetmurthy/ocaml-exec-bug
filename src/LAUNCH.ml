@@ -60,4 +60,4 @@ let main () =
 
 let _ =
   try R.failwith_error_msg (main ()) with
-    exc -> Fmt.(pf stderr "%a\n%!" exn exc)
+    exc -> Fmt.(pf stderr "%a\n%!" exn exc) ; exit 1
