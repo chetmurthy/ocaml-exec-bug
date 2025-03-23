@@ -1,6 +1,6 @@
 TOP=../../..
 
-include $(TOP)/test/Makefile.config
+include $(TOP)/test/packages/Makefile.config
 
 test:
 
