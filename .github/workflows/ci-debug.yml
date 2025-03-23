@@ -53,7 +53,7 @@ jobs:
 
       - name: Install it with opam
         run: |
-          opam install --strict camlp5-buildscripts
+          opam install -v --strict camlp5-buildscripts
 
       - name: Archive test results
         if: always()
