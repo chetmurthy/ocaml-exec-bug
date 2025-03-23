@@ -43,20 +43,34 @@ let main () =
   let* () = OS.Env.set_var "OCAMLPATH" (Some newcamlpath) in
   match !cmd with
     exe :: _ ->
-      if !verbose then
-        Fmt.
-        (pf stderr "LAUNCH: command %a\n%!"
-          (list ~sep:(const string " ") Dump.string) !cmd);
-      if !veryverbose then
-        Fmt.
-        (pf stderr "LAUNCH: env PATH=%a OCAMLPATH=%a %a\n%!" Dump.string
-          newpath Dump.string newcamlpath
-          (list ~sep:(const string " ") Dump.string) !cmd);
-      Ok (Unix.execvp exe (Array.of_list !cmd))
+     begin
+       if !veryverbose then
+         Fmt.
+         (pf stderr "LAUNCH: env PATH=%a OCAMLPATH=%a %a\n%!" Dump.string
+            newpath Dump.string newcamlpath
+            (list ~sep:(const string " ") Dump.string) !cmd);
+       let cmd = !cmd in
+       let cmd = Filename.quote_command (List.hd cmd) (List.tl cmd) in
+
+       if !verbose then
+         Fmt.(pf stderr "LAUNCH: command %s\n%!" cmd);
+       let st = Unix.system cmd in
+       match st with
+         Unix.WEXITED 0 -> Ok ()
+       | Unix.WEXITED n -> exit n
+       | WSIGNALED n ->
+          Error
+            (`Msg
+               (Printf.sprintf "LAUNCH: command killed by signal %d" n))
+       | WSTOPPED n ->
+          Error
+            (`Msg
+               (Printf.sprintf "LAUNCH: command stopped by signal %d" n))
+     end
   | _ ->
-      Error
-        (`Msg
-           "LAUNCH: at least one argument (the command-name) must be provided")
+     Error
+       (`Msg
+          "LAUNCH: at least one argument (the command-name) must be provided")
 
 let _ =
   try R.failwith_error_msg (main ()) with

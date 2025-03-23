@@ -16,7 +16,7 @@ t/ya-wrap-ocamlfind/use_str.cmo
 ```sh
 $ rm -f t/ya-wrap-ocamlfind/use_str.cm*
 $ TOP=../.. ../../src/LAUNCH -v -- ocamlfind camlp5-buildscripts/ya-wrap-ocamlfind ocamlfind ocamlc -c t/ya-wrap-ocamlfind/use_str.ml
-LAUNCH: command "ocamlfind" "camlp5-buildscripts/ya-wrap-ocamlfind" "ocamlfind" "ocamlc" "-c" "t/ya-wrap-ocamlfind/use_str.ml"
+LAUNCH: command 'ocamlfind' 'camlp5-buildscripts/ya-wrap-ocamlfind' 'ocamlfind' 'ocamlc' '-c' 't/ya-wrap-ocamlfind/use_str.ml'
 'ocamlfind' 'ocamlc' '-c' -package str  t/ya-wrap-ocamlfind/use_str.ml
 $ ls t/ya-wrap-ocamlfind/use_str.cm*
 t/ya-wrap-ocamlfind/use_str.cmi
