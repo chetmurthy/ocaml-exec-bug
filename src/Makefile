@@ -33,6 +33,7 @@ LAUNCH: LAUNCH.ml
 	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
 
 install::
+	ls -la
 	mkdir -p $(DESTDIR)/lib
 	touch META
 	$(NOT_OCAMLFIND) reinstall-if-diff camlp5-buildscripts -destdir $(DESTDIR)/lib META $(BIN)
