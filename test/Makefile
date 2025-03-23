@@ -1,5 +1,6 @@
 
-TESTDIRS=simple packages
+FAIL=fail
+TESTDIRS=simple packages $(FAIL)
 
 all:
 	set -e; for i in $(TESTDIRS); do cd $$i; $(MAKE) all; cd ..; done
