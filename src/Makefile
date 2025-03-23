@@ -11,7 +11,7 @@ NOT_OCAMLFIND=not-ocamlfind
 OCAMLFIND=ocamlfind
 PACKAGES=re,fmt,unix,bos
 
-BIN=ya-wrap-ocamlfind$(EXE) fixin$(EXE) join_meta$(EXE) LAUNCH$(EXE)
+BIN=ya-wrap-ocamlfind$(EXE) fixin$(EXE) join_meta$(EXE) LAUNCH$(EXE) LAUNCH
 
 all: $(BIN)
 	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install
@@ -26,6 +26,9 @@ fixin$(EXE): fixin.ml
 	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
 
 LAUNCH$(EXE): LAUNCH.ml
+	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
+
+LAUNCH: LAUNCH.ml
 	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
 
 install::
