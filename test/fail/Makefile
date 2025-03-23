@@ -3,3 +3,5 @@ all:
 
 test::
 	false
+
+clean::
