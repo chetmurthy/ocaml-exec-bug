@@ -1,7 +1,6 @@
 TOP=../../..
 
-LAUNCH=TOP=$(TOP) $(TOP)/src/LAUNCH
-OCAMLFIND=$(LAUNCH) -- ocamlfind 
+include $(TOP)/test/Makefile.config
 
 test:
 

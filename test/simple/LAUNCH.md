@@ -9,6 +9,6 @@ foo
 ```
 
 ```sh
-$ env TOP=../.. ../../src/LAUNCH -vv -- ocamlfind camlp5-buildscripts/LAUNCH -vv -- echo bar
+$ env TOP=../.. ../../src/LAUNCH -- ocamlfind camlp5-buildscripts/LAUNCH -- echo bar
 bar
 ```

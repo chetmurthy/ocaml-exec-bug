@@ -1,7 +1,6 @@
 TOP=../../..
 
-LAUNCH=env TOP=$(TOP) $(TOP)/src/LAUNCH$(EXE) -vv --
-OCAMLFIND=$(LAUNCH) ocamlfind
+include $(TOP)/test/Makefile.config
 
 all test: justfoo foobar andbuzz
 
