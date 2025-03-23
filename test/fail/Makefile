@@ -2,8 +2,17 @@
 all:
 
 test::
-	ocamlfind fmt/NONEXISTENT && false
-	TOP=../.. ../../src/LAUNCH -- ocamlfind fmt/NONEXISTENT && false
-	TOP=../.. ../../src/LAUNCH -- ocamlfind camlp5-buildscripts/LAUNCH -- echo foo && false
+	rm -f FAILED
+	if [ -f FAILED ] ; then false; fi
+	ocamlfind fmt/NONEXISTENT || touch FAILED
+	if [ ! -f FAILED ] ; then false; fi
+	rm -f FAILED
+	TOP=../.. ../../src/LAUNCH -- ocamlfind fmt/NONEXISTENT || touch FAILED
+	if [ ! -f FAILED ] ; then false; fi
+	rm -f FAILED
+	TOP=../.. ../../src/LAUNCH -- ocamlfind camlp5-buildscripts/LAUNCH -- echo foo || touch FAILED
+	if [ ! -f FAILED ] ; then false; fi
+	rm -f FAILED
+	echo "==== ALL PASSED ===="
 
 clean::
