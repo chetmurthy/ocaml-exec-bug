@@ -12,7 +12,7 @@ endif
 
 %: %.md
 	rm -f $<.corrected
-	ocaml-mdx test $<
+	ocaml-mdx test --force-output $<
 	test '!' -f $<.corrected || diff -I '```' -Bwiu $< $<.corrected
 
 clean::
