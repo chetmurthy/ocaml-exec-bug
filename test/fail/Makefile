@@ -2,6 +2,7 @@
 all:
 
 test::
+	../../src/LAUNCH2 -- echo it-actually-calls-the-argument
 	rm -f FAILED
 	if [ -f FAILED ] ; then false; fi
 	ocamlfind fmt/NONEXISTENT || touch FAILED
