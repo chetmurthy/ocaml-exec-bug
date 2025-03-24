@@ -49,8 +49,3 @@ jobs:
       - name: Test it with make
         run: |
           opam exec -- make test
-          opam exec -- make clean
-
-      - name: Install it with opam
-        run: |
-          opam install --strict ocaml-exec-bug

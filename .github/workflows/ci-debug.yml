@@ -49,15 +49,3 @@ jobs:
       - name: Test it with make
         run: |
           opam exec -- make test
-#	  opam exec -- make clean
-
-      - name: Install it with opam
-        run: |
-          opam install -v --strict ocaml-exec-bug
-
-      - name: Archive test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: test/*
