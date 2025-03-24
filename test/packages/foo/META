@@ -1,3 +1,0 @@
-description = "haha"
-requires = ""
-archive(byte) = "foo.cmo"

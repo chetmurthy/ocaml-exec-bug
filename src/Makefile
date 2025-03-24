@@ -7,36 +7,14 @@ EXE=
 endif
 TOP=..
 
-NOT_OCAMLFIND=not-ocamlfind
 OCAMLFIND=ocamlfind
-PACKAGES=re,fmt,unix,bos
 
-BIN=ya-wrap-ocamlfind$(EXE) fixin$(EXE) join_meta$(EXE) LAUNCH$(EXE) LAUNCH2$(EXE)
+BIN=LAUNCH2$(EXE)
 
 all: $(BIN)
-	echo BIN: $(BIN)
-	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install
-
-ya-wrap-ocamlfind$(EXE): ya_wrap_ocamlfind.ml
-	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
-
-join_meta$(EXE): join_meta.ml
-	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
-
-fixin$(EXE): fixin.ml
-	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
-
-LAUNCH$(EXE): LAUNCH.ml
-	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
 
 LAUNCH2$(EXE): LAUNCH2.ml
-	$(OCAMLFIND) ocamlc -linkpkg -linkall -package $(PACKAGES) $< -o $@
-
-install::
-	mkdir -p $(DESTDIR)/lib
-	touch META
-	$(NOT_OCAMLFIND) reinstall-if-diff camlp5-buildscripts -destdir $(DESTDIR)/lib META $(BIN)
-	rm -f META
+	$(OCAMLFIND) ocamlc -linkpkg -linkall -package fmt,unix $< -o $@
 
 clean::
 	rm -f *.bak *.cm* $(BIN) META
