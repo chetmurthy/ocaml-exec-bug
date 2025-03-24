@@ -40,7 +40,7 @@ jobs:
       - name: Setup Dependencies
         run: |
           opam install . --deps-only --with-doc --with-test
-          opam pin add camlp5-buildscripts . --no-action
+          opam pin add ocaml-exec-bug . --no-action
 
       - name: Build it with make
         run: |
@@ -53,4 +53,4 @@ jobs:
 
       - name: Install it with opam
         run: |
-          opam install --strict camlp5-buildscripts
+          opam install --strict ocaml-exec-bug
